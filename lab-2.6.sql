@@ -22,7 +22,7 @@ GROUP BY rating;
 SELECT count(title), rating, round(AVG(length), 2) FROM film
 GROUP BY rating HAVING  round(AVG(length), 2) > 120;
 -- 8
-SELECT title, length, rating,
+SELECT title, length, 
 CASE
 WHEN length > 110 THEN 'very long movie'
 WHEN length > 90 THEN 'long movie'
@@ -31,3 +31,11 @@ ELSE 'short movie'
 END AS 'length_ranking'
 FROM film
 where length IS NOT NULL AND length <> 0;
+
+
+SELECT title, length, RANK() OVER (ORDER BY length) length_rank
+FROM film
+WHERE LENGTH IS NOT NULL AND length <> 0;
+SELECT title, length, ROW_NUMBER() OVER (ORDER BY length) length_rank
+FROM film
+WHERE LENGTH IS NOT NULL AND length <> 0;
